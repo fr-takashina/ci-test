@@ -1,0 +1,58 @@
+[tool.poetry]
+name = "opt_app_boilerplate"
+version = "0.1.0"
+description = ""
+authors = [
+    "Yuya Takashina <yuya.takashina@fastretailing.com>",
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pandas = "^1.4.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.1"
+isort = "^5.10.1"
+black = "^22.3.0"
+flake8 = "^4.0.1"
+mypy = "^0.942"
+pysen = "^0.10.1"
+Sphinx = "^4.5.0"
+sphinx-rtd-theme = "^1.0.0"
+
+[tool.poetry.scripts]
+print_project_root = "opt_app_boilerplate.usecase.sample:print_project_root"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pysen]
+version = "0.10"
+
+[tool.pysen.lint]
+enable_black = true
+enable_flake8 = true
+enable_isort = true
+enable_mypy = true
+mypy_preset = "strict"
+line_length = 120
+py_version = "py39"
+isort_known_third_party = ["numpy"]
+isort_known_first_party = ["pysen", "opt_app_boilerplate"]
+mypy_ignore_packages = ["pysen.generated.*"]
+mypy_path = ["stubs"]
+[[tool.pysen.lint.mypy_targets]]
+paths = [".", "tests/"]
+
+[tool.pysen.lint.source]
+includes = ["opt_app_boilerplate"]  # lint only the production code
+include_globs = ["**/*.template"]
+excludes = ["third_party/"]
+exclude_globs = ["**/*_grpc.py"]
+
+[tool.pysen.lint.mypy_modules."pysen.scripts"]
+preset = "entry"
+
+[tool.pysen.lint.mypy_modules."numpy"]
+ignore_errors = true
